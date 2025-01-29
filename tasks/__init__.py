@@ -11,9 +11,9 @@ def add_task(title, description, priority, tags, deadline):
             tags=",".join(tags) if tags else "",
             deadline=deadline
         )
-        session.add(Task)
+        session.add(task)
         session.commit()
-        print(f"Task '{title}' added successfully")
+        print(f"Task '{title}' added successfully.")
     except SQLAlchemyError as e:
         print(f"Error: {e}")
         session.rollback()
@@ -28,11 +28,16 @@ def list_tasks():
 
 def delete_task(task_id):
     session = SessionLocal()
-    task = session.query(Task).filter(Task.id == task_id).first()
-    if task:
-        session.delete(task)
+    try:
+        task = session.query(Task).filter(Task.id == task_id).first()
+        if task:
+            session.delete(task)
+            session.commit()  # ✅ Commit the delete operation
+            print(f"Task ID {task_id} deleted.")
+        else:
+            print("Task not found.")
+    except SQLAlchemyError as e:
+        print(f"Error: {e}")
+        session.rollback()
+    finally:
         session.close()
-        print(f"Task ID {task_id} deleted.")
-    else:
-        print("Task not found.")
-    session.close()
