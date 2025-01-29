@@ -1,5 +1,6 @@
 from database import SessionLocal, Task
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Query
 
 def add_task(title, description, priority, tags, deadline):
     session = SessionLocal()
@@ -80,3 +81,25 @@ def reindex_tasks(session):
     for index, task in enumerate(tasks, start=1):
         task.id = index
     session.commit()
+
+def get_tasks(filters={}):
+    """Retrieve tasks based on provided filters"""
+    session = SessionLocal()
+    query: Query = session.query(Task)
+    
+    if "title" in filters:
+        query = query.filter(Task.title.ilike(f"%{filters['title']}%"))
+    if "tags" in filters:
+        query = query.filter(Task.tags.ilike(f"%{filters['tags']}%"))
+    if "priority" in filters:
+        query = query.filter(Task.priority == filters["priority"])
+    if "status" in filters:
+        query = query.filter(Task.status == filters["status"])
+    if "deadline_before" in filters:
+        query = query.filter(Task.deadline < filters["deadline_before"])
+    if "deadline_after" in filters:
+        query = query.filter(Task.deadline < filters["deadline_after"])
+        
+    tasks = query.all()
+    session.close()
+    return tasks
