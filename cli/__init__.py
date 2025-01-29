@@ -6,26 +6,26 @@ import datetime
 def cli():
     pass
 
-
 @click.command()
-@click.option("--title", prompt="Task title", help="Title of the task")
-@click.option("--description", prompt="Task description", help="Description of the task")
-@click.option("--priority", prompt="Task priority", type=click.Choice(["Low", "Medium", "High"]), help="Priority of the task")
+@click.argument("title")
+@click.option("--description", default="", help="Description of the task")
+@click.option("--priority", type=click.Choice(["Low", "Medium", "High"]), default="Medium", help="Priority of the task")
 @click.option("--tags", default="", help="Comma-separated tags")
 @click.option("--deadline", default=None, help="Deadline (YYYY-MM-DD HH:MM:SS)")
 def add(title, description, priority, tags, deadline):
+    """Add a new task."""
     deadline = datetime.datetime.strptime(deadline, "%Y-%m-%d %H:%M:%S") if deadline else None
-    add_task(title, description, priority, tags.split(","), deadline)
-    
+    add_task(title, description, priority, tags.split(",") if tags else [], deadline)
+
 @click.command()
 def list():
-    tasks = list_tasks()
-    for task in tasks:
-        print(f"[{task.id}] {task.title} - {task.status}")
-        
+    """List all tasks."""
+    list_tasks()
+
 @click.command()
 @click.argument("task_id", type=int)
 def delete(task_id):
+    """Delete a task by ID."""
     delete_task(task_id)
     
 @click.command()
@@ -37,9 +37,10 @@ def delete(task_id):
 @click.option("--deadline", default=None, help="New deadline (YYYY-MM-DD HH:MM:SS)")
 @click.option("--status", default=None, help="New status (e.g., pending, completed)")
 def edit(task_id, title, description, priority, tags, deadline, status):
+    """Edit an existing task."""
     deadline = datetime.datetime.strptime(deadline, "%Y-%m-%d %H:%M:%S") if deadline else None
     edit_task(task_id, title, description, priority, tags.split(",") if tags else None, deadline, status)
-    
+
 cli.add_command(add)
 cli.add_command(list)
 cli.add_command(delete)

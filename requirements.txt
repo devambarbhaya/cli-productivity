@@ -5,5 +5,7 @@ mdurl==0.1.2
 plyer==2.1.0
 Pygments==2.19.1
 rich==13.9.4
+setuptools==75.8.0
 SQLAlchemy==2.0.37
+-e git+https://github.com/devambarbhaya/cli-productivity.git@2942fa9f9d0e7be0baa71b2d87a297db72470aff#egg=task_cli
 typing_extensions==4.12.2
