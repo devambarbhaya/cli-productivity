@@ -17,4 +17,11 @@ def add(title, description, priority, tags, deadline):
     deadline = datetime.datetime.strptime(deadline, "%Y-%m-%d %H:%M:%S") if deadline else None
     add_task(title, description, priority, tags.split(","), deadline)
     
+@click.command()
+def list():
+    tasks = list_tasks()
+    for task in tasks:
+        print(f"[{task.id}] {task.title} - {task.status}")
+    
 cli.add_command(add)
+cli.add_command(list)
