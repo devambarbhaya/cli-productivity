@@ -1,0 +1,18 @@
+INFO:root:Starting notification check...
+INFO:root:Checking for tasks with deadlines within 10 minutes of 2025-01-29 14:06:50.751686.
+INFO:root:Found 0 task(s) with upcoming deadlines.
+INFO:root:Notification check complete.
+INFO:root:Starting notification check...
+INFO:root:Checking for tasks with deadlines within 10 minutes of 2025-01-29 14:06:52.390828.
+INFO:root:Found 0 task(s) with upcoming deadlines.
+INFO:root:Notification check complete.
+INFO:root:Starting notification check...
+INFO:root:Checking for all tasks that are not completed.
+INFO:root:Found 1 task(s) to notify.
+ERROR:root:Error during notification check: No usable implementation found!
+INFO:root:Notification check complete.
+INFO:root:Starting notification check...
+INFO:root:Checking for all tasks that are not completed.
+INFO:root:Found 1 task(s) to notify.
+INFO:root:Notification sent for task 1 - Attend hackathons at 2025-01-29 14:09:12.599188
+INFO:root:Notification check complete.
