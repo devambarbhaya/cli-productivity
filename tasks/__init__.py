@@ -80,4 +80,3 @@ def reindex_tasks(session):
     for index, task in enumerate(tasks, start=1):
         task.id = index
     session.commit()
-    print("🔄 Task IDs reindexed.")
