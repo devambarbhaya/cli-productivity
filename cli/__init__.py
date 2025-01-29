@@ -22,6 +22,12 @@ def list():
     tasks = list_tasks()
     for task in tasks:
         print(f"[{task.id}] {task.title} - {task.status}")
+        
+@click.command()
+@click.argument("task_id", type=int)
+def delete(task_id):
+    delete_task(task_id)
     
 cli.add_command(add)
 cli.add_command(list)
+cli.add_command(delete)
