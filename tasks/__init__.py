@@ -13,17 +13,25 @@ def add_task(title, description, priority, tags, deadline):
         )
         session.add(task)
         session.commit()
-        print(f"Task '{title}' added successfully.")
+        print(f"✅ Task '{title}' added successfully.")
     except SQLAlchemyError as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
         session.rollback()
     finally:
         session.close()
-        
+    list_tasks()  # Show updated task list
+
 def list_tasks():
     session = SessionLocal()
-    tasks = session.query(Task).all()
+    tasks = session.query(Task).order_by(Task.id).all()
     session.close()
+
+    if not tasks:
+        print("📭 No tasks found.")
+    else:
+        print("\n📌 Tasks:")
+        for task in tasks:
+            print(f" - [{task.id}] {task.title} (Status: {task.status}, Priority: {task.priority})")
     return tasks
 
 def delete_task(task_id):
@@ -32,40 +40,44 @@ def delete_task(task_id):
         task = session.query(Task).filter(Task.id == task_id).first()
         if task:
             session.delete(task)
-            session.commit()  # ✅ Commit the delete operation
-            print(f"Task ID {task_id} deleted.")
+            session.commit()
+            print(f"🗑️ Task ID {task_id} deleted.")
+            reindex_tasks(session)  # Reindex after deletion
         else:
-            print("Task not found.")
+            print("⚠️ Task not found.")
     except SQLAlchemyError as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
         session.rollback()
     finally:
         session.close()
-        
-def edit_task(task_id, title=None, description=None, priority=None, tags=None, deadline=None, status=None):
+    list_tasks()  # Show updated task list
+
+def edit_task(task_id, title, description, priority, tags, deadline, status):
     session = SessionLocal()
     try:
         task = session.query(Task).filter(Task.id == task_id).first()
-        if not task:
-            print("Task not found")
-            return
-        if title:
-            task.title=title
-        if description:
-            task.description=description
-        if priority:
-            task.priority=priority
-        if tags:
-            task.tags=",".join(tags)
-        if deadline:
-            task.deadline=deadline
-        if status:
-            task.status=status
-            
-        session.commit()
-        print(f"Task ID {task_id} updated successfully")
+        if task:
+            if title: task.title = title
+            if description: task.description = description
+            if priority: task.priority = priority
+            if tags: task.tags = ",".join(tags)
+            if deadline: task.deadline = deadline
+            if status: task.status = status
+            session.commit()
+            print(f"✏️ Task ID {task_id} updated successfully.")
+        else:
+            print("⚠️ Task not found.")
     except SQLAlchemyError as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
         session.rollback()
     finally:
         session.close()
+    list_tasks()  # Show updated task list
+
+def reindex_tasks(session):
+    """Reorders task IDs to maintain sequential numbering."""
+    tasks = session.query(Task).order_by(Task.id).all()
+    for index, task in enumerate(tasks, start=1):
+        task.id = index
+    session.commit()
+    print("🔄 Task IDs reindexed.")
