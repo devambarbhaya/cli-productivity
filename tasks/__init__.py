@@ -19,3 +19,9 @@ def add_tasks(title, description, priority, tags, deadline):
         session.rollback()
     finally:
         session.close()
+        
+def list_tasks():
+    session = SessionLocal()
+    tasks = session.query(Task).all()
+    session.close()
+    return tasks
