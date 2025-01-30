@@ -2,3 +2,6 @@ venv/
 __pycache__/
 tasks.db
 *.egg-info/
+build/
+dist/
+*.spec
