@@ -16,3 +16,11 @@ INFO:root:Checking for all tasks that are not completed.
 INFO:root:Found 1 task(s) to notify.
 INFO:root:Notification sent for task 1 - Attend hackathons at 2025-01-29 14:09:12.599188
 INFO:root:Notification check complete.
+INFO:root:Starting notification check...
+INFO:root:Checking for all tasks that are not completed.
+INFO:root:Found 4 task(s) to notify.
+INFO:root:Notification sent for task 1 - Buy groceries at 2025-01-30 04:01:20.758209
+INFO:root:Notification sent for task 2 - Buy books at 2025-01-30 04:01:20.758209
+INFO:root:Notification sent for task 3 - Buy food at 2025-01-30 04:01:20.758209
+INFO:root:Notification sent for task 4 - Complete project at 2025-01-30 04:01:20.758209
+INFO:root:Notification check complete.
