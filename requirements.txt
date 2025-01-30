@@ -15,5 +15,5 @@ rich==13.9.4
 setuptools==75.8.0
 shiv==1.0.8
 SQLAlchemy==2.0.37
--e git+https://github.com/devambarbhaya/cli-productivity.git@7a9803e9aec5ef62722d3bdf682212ce4163536a#egg=task_cli
+-e git+https://github.com/devambarbhaya/cli-productivity.git@f5891b9938d67de7b2eabd52d667081a1aadf715#egg=task_cli
 typing_extensions==4.12.2
